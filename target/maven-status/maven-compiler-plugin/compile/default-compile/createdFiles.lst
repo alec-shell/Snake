@@ -1,0 +1,7 @@
+com\mycompany\snake\GamePanel.class
+com\mycompany\snake\Snake.class
+com\mycompany\snake\Direction.class
+com\mycompany\snake\SnakeSegment.class
+com\mycompany\snake\Snake$Listener.class
+com\mycompany\snake\GamePanel$1.class
+com\mycompany\snake\Snake$1.class
