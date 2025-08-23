@@ -58,15 +58,15 @@ class GamePanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;    
-        
+        g2d.setColor(Color.white);
         g2d.fillRect(snake.get(0).getX(), snake.get(0).getY(), 
                 OBJECT_SCALE, OBJECT_SCALE);
         int snakeLength = snake.size();
         for (int i = 1; i < snakeLength; i++) {
             if (i % 2 == 0) {
-                g2d.setColor(Color.MAGENTA);
+                g2d.setColor(Color.magenta);
             } else {
-                g2d.setColor(Color.ORANGE);
+                g2d.setColor(Color.orange);
             }
             g2d.fillRect(snake.get(i).getX(), snake.get(i).getY(), OBJECT_SCALE, OBJECT_SCALE);
         }

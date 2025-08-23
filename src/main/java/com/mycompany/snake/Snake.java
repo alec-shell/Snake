@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 
 /**
  *
- * @author ALEC
+ *
  */
 
 public class Snake extends JFrame {
