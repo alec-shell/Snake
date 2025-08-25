@@ -31,6 +31,7 @@ class GamePanel extends JPanel implements ActionListener {
     private int snakeY = 250;
     private int appleY;
     private int appleX;
+    private int appleClr = 0;
     private int score = 0;
     private final Random rand = new Random();
     protected final Timer timer;
@@ -66,14 +67,20 @@ class GamePanel extends JPanel implements ActionListener {
             if (i % 2 == 0) {
                 g2d.setColor(Color.magenta);
             } else {
-                g2d.setColor(Color.orange);
+                g2d.setColor(Color.cyan);
             }
             g2d.fillRect(snake.get(i).getX(), snake.get(i).getY(), OBJECT_SCALE, OBJECT_SCALE);
         }
-        g2d.setColor(Color.green);
+        g2d.setColor(setAppleClr());
         g2d.fillOval(appleX, appleY, OBJECT_SCALE, OBJECT_SCALE);
     }//end of paintComponent
-    
+
+    private Color setAppleClr() {
+        if (appleClr == 0) return Color.GREEN;
+        else if (appleClr == 1) return Color.RED;
+        else return Color.YELLOW;
+    } // end of setAppleClr
+
     private boolean isOverlapping() {
         for (SnakeSegment seg : snake) {
             if (seg.getX() == appleX && seg.getY() == appleY) {
@@ -90,7 +97,8 @@ class GamePanel extends JPanel implements ActionListener {
     
     protected final void detectCollision() {
         if (snakeX == appleX && snakeY == appleY) {
-            score++;
+            addPoints();
+            generateAppleClr();
             snake.add(new SnakeSegment(-25, -25));
             locateApple();
             while (isOverlapping()) locateApple();
@@ -109,14 +117,33 @@ class GamePanel extends JPanel implements ActionListener {
             }
         }
     }//end of detectCollision
-    
+
+    private void generateAppleClr() {
+        int color = rand.nextInt(100);
+        if (color < 70) {
+            appleClr = 0;
+        }
+        else if (color < 95) {
+            appleClr = 1;
+        }
+        else {
+            appleClr = 2;
+        }
+    } // end of generateAppleClr
+
+    private void addPoints() {
+        if (appleClr == 0) score++;
+        else if (appleClr == 1) score += 2;
+        else score += 10;
+    } // end of addPoints
+
     protected final void move() {
         switch (direction) {
             case Direction.NORTH -> snakeY -= OBJECT_SCALE;
             case Direction.SOUTH -> snakeY += OBJECT_SCALE;
             case Direction.EAST -> snakeX += OBJECT_SCALE;
             default -> snakeX -= OBJECT_SCALE;
-        }
+        } // end of move
         
         int snakeLength = snake.size();
         if (snakeLength > 1) {
@@ -146,6 +173,7 @@ class GamePanel extends JPanel implements ActionListener {
         jpScore.setText("SCORE: " + score);
         snake.clear();
         snake.add(new SnakeSegment(snakeX, snakeY));
+        appleClr = 0;
         repaint();
         timer.stop();
     }//end of resetGame
